@@ -27,7 +27,7 @@ VALIDATE(){
 }
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
-VALIDATE $? "Coping mongo.repo file in to yum.repos.d/mongo.repo"
+VALIDATE $? "Copying mongo.repo file in to yum.repos.d/mongo.repo"
 
 yum install mongodb-org -y &>> $LOGFILE
 VALIDATE $? "Installing Mongodb"
