@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATE=$(date +%f)
+DATE=$(date +%F:%H:%M:%S)
 SCRIPT_NAME=$0
 LOGFILE=/tmp/$0/$DATE.log
 USERID=$(id -u)
