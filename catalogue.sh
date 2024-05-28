@@ -84,5 +84,5 @@ VALIDATE $? "Copying the mongo.repo"
 yum install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing mongodb-client"
 
-mongo --host mongodb.vijaydeepak0812.online </app/schema/catalogue.js
+mongo --host mongodb.jiondevops.site </app/schema/catalogue.js
 VALIDATE $? "loading catalogue data into mongodb"
