@@ -1,88 +1,89 @@
 #!/bin/bash
 
-DATE=$(date +%F:%H:%M:%S)
+DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGDIR=/tmp
-LOGFILE=$LOGDIR/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-USER=$(id roboshop)
-
 R="\e[31m"
 G="\e[32m"
-Y="\e[33m"
 N="\e[0m"
+Y="\e[33m"
 
 if [ $USERID -ne 0 ];
 then
-    echo -e "$R ERROR:: You should be the ROOT user to run this command $N"
+    echo -e "$R ERROR:: Please run this script with root access $N"
     exit 1
 fi
 
 VALIDATE(){
-    if [ $? -ne 0 ];
+    if [ $1 -ne 0 ];
     then
-        echo -e $2 ... $R FAILURE $N"
+        echo -e "$2 ... $R FAILURE $N"
         exit 1
     else
-        echo -e $2 ... $G SUCCESS $N"
+        echo -e "$2 ... $G SUCCESS $N"
     fi
 }
 
-SKIP(){
-	echo -e "$1 Exist... $Y SKIPPING $N"
-}
-
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
+
 VALIDATE $? "Setting up NPM Source"
 
 yum install nodejs -y &>>$LOGFILE
-VALIDATE $? "Installing Node-js"
 
-if [ $USER -ne 0 ];
-then
-    SKIP "Roboshop user"
-else
-    useradd roboshop &>>$LOGFILE
-    VALIDATE $? "Creating Roboshop user"
-fi
+VALIDATE $? "Installing NodeJS"
 
-if [ -d app ];
-then
-    SKIP "app"
-else
-    mkdir /app &>>$LOGFILE
-    VALIDATE $? "Making app Directory"
-fi
+#once the user is created, if you run this script 2nd time
+# this command will defnitely fail
+# IMPROVEMENT: first check the user already exist or not, if not exist then create
+useradd roboshop &>>$LOGFILE
+
+#write a condition to check directory already exist or not
+mkdir /app &>>$LOGFILE
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
-VALIDATE $? "Downloading catalogue artifact" 
+
+VALIDATE $? "downloading catalogue artifact"
 
 cd /app &>>$LOGFILE
-VALIDATE $? "Movinginto the app directory"
+
+VALIDATE $? "Moving into app directory"
 
 unzip /tmp/catalogue.zip &>>$LOGFILE
-VALIDATE $? "Unzipping the dependencies"
+
+VALIDATE $? "unzipping catalogue"
 
 npm install &>>$LOGFILE
-VALIDATE $? "Installing the dependencies"
 
-cp /home/centos/roboshop-shellscript/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
-VALIDATE $? "Copying catalogue.service"
+VALIDATE $? "Installing dependencies"
+
+# give full path of catalogue.service because we are inside /app
+cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+
+VALIDATE $? "copying catalogue.service"
 
 systemctl daemon-reload &>>$LOGFILE
-VALIDATE $? "Daemon Reloading Catalogue"
+
+VALIDATE $? "daemon reload"
 
 systemctl enable catalogue &>>$LOGFILE
+
 VALIDATE $? "Enabling Catalogue"
 
 systemctl start catalogue &>>$LOGFILE
+
 VALIDATE $? "Starting Catalogue"
 
-cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
-VALIDATE $? "Copying the mongo.repo"
+cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+
+VALIDATE $? "Copying mongo repo"
 
 yum install mongodb-org-shell -y &>>$LOGFILE
-VALIDATE $? "Installing mongodb-client"
 
-mongo --host mongodb.jiondevops.site </app/schema/catalogue.js
+VALIDATE $? "Installing mongo client"
+
+mongo --host mongodb.jiondevops.site </app/schema/catalogue.js &>>$LOGFILE
+
 VALIDATE $? "loading catalogue data into mongodb"
