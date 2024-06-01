@@ -33,7 +33,7 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
 
-if [ $USER = 1 ];
+if [ $USER -e 1 ];
 then
     useradd roboshop
     VALIDATE $? "Creating Roboshop User"
