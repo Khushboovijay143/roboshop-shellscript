@@ -43,8 +43,15 @@ else
     
 fi
 
-# #write a condition to check directory already exist or not
-# mkdir /app &>>$LOGFILE
+if [ -d /app ];
+then 
+    echo -e "$R app already exist $N"
+    exit 1
+else
+    mkdir /app &>>$LOGFILE
+    echo -e "$G Creating app Directory $N"
+fi
+
 
 # curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 
