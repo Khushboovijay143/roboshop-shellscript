@@ -4,7 +4,7 @@ DATE=$(date +%F)
 SCRIPT_NAME=$0
 LOGFILE=/tmp/$0-$DATE.log
 USERID=$(id -u)
-#USERIDROBO=$(id -u roboshop)
+USERIDROBO=$(id -u roboshop)
 
 R="\e[31m"
 G="\e[32m"
@@ -33,7 +33,7 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
     
-if id -u roboshop -eq 0
+if [ $USERIDROBO -eq 0 ];
 then
     echo -e "$R Roboshop user found $N"
     exit 1
