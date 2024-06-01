@@ -42,6 +42,7 @@ else
     echo -e "$G Creating user Roboshop $N"
 fi
 
+
 if [ -d /app ];
 then 
     echo -e "$R app already exist $N"
