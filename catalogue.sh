@@ -35,8 +35,8 @@ VALIDATE $? "Installing NodeJS"
     
 if [ $USERIDROBO -ne 0 ]
 then
-    echo "roboshop no such user"
     useradd roboshop &>>LOGFILE
+    echo "roboshop no such user"
 else
     echo "roboshop user found"
 fi
