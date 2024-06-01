@@ -35,11 +35,11 @@ VALIDATE $? "Installing NodeJS"
     
 if [ $USERIDROBO -eq 0 ];
 then
-    echo -e "$R Roboshop user found $N"
+    echo -e "$R Roboshop already exist $N"
     exit 1
 else
     useradd roboshop &>>$LOGFILE
-    echo -e "$G Roboshop no such user Hence Creating $N"
+    echo -e "$G Creating user Roboshop $N"
 fi
 
 if [ -d /app ];
