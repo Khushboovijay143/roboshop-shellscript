@@ -39,7 +39,7 @@ then
     exit 1
 else
     useradd roboshop &>>LOGFILE
-    echo "roboshop no such user"
+    echo "roboshop no such user Hence Creating"
 fi
 
 # #write a condition to check directory already exist or not
