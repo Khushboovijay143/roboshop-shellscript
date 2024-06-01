@@ -38,9 +38,8 @@ then
     echo -e "$R Roboshop user found $N"
     exit 1
 else
+    useradd roboshop &>>$LOGFILE
     echo -e "$G Roboshop no such user Hence Creating $N"
-    useradd roboshop &>>LOGFILE
-    
 fi
 
 if [ -d /app ];
