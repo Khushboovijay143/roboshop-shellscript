@@ -4,7 +4,7 @@ DATE=$(date +%F)
 SCRIPT_NAME=$0
 LOGFILE=/tmp/$0-$DATE.log
 USERID=$(id -u)
-USER_ROBOSHOP=$(id roboshop)
+USERIDROBO=$(id -u roboshop)
 
 R="\e[31m"
 G="\e[32m"
@@ -32,16 +32,14 @@ VALIDATE $? "Setting up NPM Source"
 
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
-
-if [ $USER_ROBOSHOP -ne 0 ];
-then
-    useradd roboshop &>>LOGFILE
-    echo -e "$G Creating Roboshop $N"
-else
-    echo -e "$R Roboshop User already exist $N"
-    exit 1
-fi
     
+if [ $USERIDROBO -ne 0 ]
+then
+    echo "roboshop no such user"
+    useradd roboshop &>>LOGFILE
+else
+    echo "roboshop user found"
+fi
 
 # #write a condition to check directory already exist or not
 # mkdir /app &>>$LOGFILE
