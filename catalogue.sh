@@ -4,7 +4,7 @@ DATE=$(date +%F)
 SCRIPT_NAME=$0
 LOGFILE=/tmp/$0-$DATE.log
 USERID=$(id -u)
-USER=$(id roboshop)
+USER_ROBOSHOP=$(id roboshop)
 
 R="\e[31m"
 G="\e[32m"
@@ -33,7 +33,7 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
 
-if [ $USER -ne 0 ];
+if [ $USER_ROBOSHOP -ne 0 ];
 then
     useradd roboshop
     echo "Creating Roboshop User"
