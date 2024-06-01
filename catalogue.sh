@@ -33,12 +33,13 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
     
-if [ $USERIDROBO -e 0 ]
+if [ $USERIDROBO -e 0 ];
 then
+    echo "roboshop user found"
+    exit 1
+else
     useradd roboshop &>>LOGFILE
     echo "roboshop no such user"
-else
-    echo "roboshop user found"
 fi
 
 # #write a condition to check directory already exist or not
