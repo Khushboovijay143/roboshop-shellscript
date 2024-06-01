@@ -33,7 +33,7 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
     
-if [ $USERIDROBO -e 0 ];
+if [ $USERIDROBO e 0 ];
 then
     echo -e "$R Roboshop user found $N"
     exit 1
