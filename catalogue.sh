@@ -36,7 +36,7 @@ VALIDATE $? "Installing NodeJS"
 if [ $USER -ne 0 ];
 then
     useradd roboshop
-    VALIDATE $? "Creating Roboshop User"
+    echo "Creating Roboshop User"
 else
     echo "Roboshop User already exist"
 fi
