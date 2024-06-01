@@ -39,7 +39,7 @@ then
     exit 1
 else
     useradd roboshop &>>LOGFILE
-    echo "$G Creating Roboshop $N"
+    echo -e "$G Creating Roboshop $N"
 fi
     
 
