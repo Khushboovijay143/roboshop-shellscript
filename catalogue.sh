@@ -38,9 +38,8 @@ then
     echo "Roboshop User already exist"
     exit 1
 else
-    echo "Roboshop User already exist"
-    useradd roboshop
-    
+    echo "Creating Roboshop"
+    useradd roboshop   
 fi
 
 # #write a condition to check directory already exist or not
