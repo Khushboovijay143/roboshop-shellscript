@@ -35,11 +35,12 @@ VALIDATE $? "Installing NodeJS"
     
 if [ $USERIDROBO -e 0 ];
 then
-    echo "roboshop user found"
+    echo -e "$R Roboshop user found $N"
     exit 1
 else
+    echo -e "$G Roboshop no such user Hence Creating $N"
     useradd roboshop &>>LOGFILE
-    echo "roboshop no such user Hence Creating"
+    
 fi
 
 # #write a condition to check directory already exist or not
