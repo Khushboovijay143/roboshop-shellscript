@@ -1,52 +1,46 @@
 #!/bin/bash
 
-DATE=$(date +%F:%H:%M:%S)
+DATE=$(date +%F)
 SCRIPT_NAME=$0
-LOGDIR=/tmp
-LOGFILE=$LOGDIR/$0-$DATE.log
+LOGFILE=/tmp/$0-$DATE.log
 USERID=$(id -u)
 
 R="\e[31m"
 G="\e[32m"
-Y="\e[33m"
 N="\e[0m"
+Y="\e[33m"
 
 if [ $USERID -ne 0 ];
 then
-    echo -e "$R Errror:: You should be the ROOT user to run this command $N"
+    echo -e "$R ERROR:: Please run this script with root access $N"
     exit 1
 fi
 
 VALIDATE(){
     if [ $1 -ne 0 ];
     then
-        echo -e $2 ... $R FAILURE $N"
+        echo -e "$2 ... $R FAILURE $N"
         exit 1
     else
-        echo -e $2 ... $G SUCCESS $N"
+        echo -e "$2 ... $G SUCCESS $N"
     fi
 }
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
 
-VALIDATE $? "Copying mongo.repo file in to yum.repos.d/mongo.repo"
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+VALIDATE $? "Copied MongoDB repo into yum.repos.d"
 
-yum install mongodb-org -y &>>$LOGFILE
+yum install mongodb-org -y &>> $LOGFILE
+VALIDATE $? "Installation of MongoDB"
 
-VALIDATE $? "Installing Mongodb"
+systemctl enable mongod &>> $LOGFILE
+VALIDATE $? "Enabling MongoDB"
 
-systemctl enable mongod &>>$LOGFILE
+systemctl start mongod &>> $LOGFILE
+VALIDATE $? "Starting MongoDB"
 
-VALIDATE $? "Enabling mongodb"
+sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf &>> $LOGFILE
+VALIDATE $? "Edited MongoDB conf"
 
-systemctl start mongod &>>$LOGFILE
-
-VALIDATE $? "Starting mongodb"
-
-sed -i 's/127.0.0.0/0.0.0.0/g' /etc/mongod.conf &>>$LOGFILE
-
-VALIDATE $? "Replacing 127.0.0.0 to 0.0.0.0 in mongod.conf"
-
-systemctl restart mongod &>>$LOGFILE
-
-VALIDATE $? "Restarting mongodb"
+systemctl restart mongod &>> $LOGFILE
+VALIDATE $? "Restarting MonogoDB"
