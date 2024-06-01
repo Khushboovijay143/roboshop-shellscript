@@ -33,7 +33,7 @@ VALIDATE $? "Setting up NPM Source"
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
 
-if [ $USER_ROBOSHOP e 0 ];
+if [ $USER_ROBOSHOP -e 0 ];
 then
     echo "Roboshop User already exist"
     exit 1
