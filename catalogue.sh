@@ -45,7 +45,6 @@ fi
 if [ -d /app ];
 then 
     echo -e "$R app already exist $N"
-    exit 1
 else
     mkdir /app &>>$LOGFILE
     echo -e "$G Creating app Directory $N"
