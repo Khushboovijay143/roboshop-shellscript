@@ -52,47 +52,36 @@ else
 fi
 
 
-# curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
+VALIDATE $? "downloading catalogue artifact"
 
-# VALIDATE $? "downloading catalogue artifact"
+cd /app &>>$LOGFILE
+VALIDATE $? "Moving into app directory"
 
-# cd /app &>>$LOGFILE
+unzip /tmp/catalogue.zip &>>$LOGFILE
+VALIDATE $? "unzipping catalogue"
 
-# VALIDATE $? "Moving into app directory"
+npm install &>>$LOGFILE
+VALIDATE $? "Installing dependencies"
 
-# unzip /tmp/catalogue.zip &>>$LOGFILE
+# give full path of catalogue.service because we are inside /app
+cp /home/centos/roboshop-shellscript/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+VALIDATE $? "copying catalogue.service"
 
-# VALIDATE $? "unzipping catalogue"
+systemctl daemon-reload &>>$LOGFILE
+VALIDATE $? "daemon reload"
 
-# npm install &>>$LOGFILE
+systemctl enable catalogue &>>$LOGFILE
+VALIDATE $? "Enabling Catalogue"
 
-# VALIDATE $? "Installing dependencies"
+systemctl start catalogue &>>$LOGFILE
+VALIDATE $? "Starting Catalogue"
 
-# # give full path of catalogue.service because we are inside /app
-# cp /home/centos/roboshop-shellscript/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+VALIDATE $? "Copying mongo repo"
 
-# VALIDATE $? "copying catalogue.service"
+yum install mongodb-org-shell -y &>>$LOGFILE
+VALIDATE $? "Installing mongo client"
 
-# systemctl daemon-reload &>>$LOGFILE
-
-# VALIDATE $? "daemon reload"
-
-# systemctl enable catalogue &>>$LOGFILE
-
-# VALIDATE $? "Enabling Catalogue"
-
-# systemctl start catalogue &>>$LOGFILE
-
-# VALIDATE $? "Starting Catalogue"
-
-# cp /home/centos/roboshop-shellscript/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
-
-# VALIDATE $? "Copying mongo repo"
-
-# yum install mongodb-org-shell -y &>>$LOGFILE
-
-# VALIDATE $? "Installing mongo client"
-
-# mongo --host mongodb.jiondevops.site </app/schema/catalogue.js &>>$LOGFILE
-
-# VALIDATE $? "loading catalogue data into mongodb"
+mongo --host mongodb.jiondevops.site </app/schema/catalogue.js &>>$LOGFILE
+VALIDATE $? "loading catalogue data into mongodb"
