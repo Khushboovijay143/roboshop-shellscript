@@ -68,7 +68,7 @@ VALIDATE $? "unzipping payment artifact"
 pip3.6 install -r requirements.txt &>>$LOGFILE
 VALIDATE $? "Installing pip.6"
 
-cp /home/centos/roboshop-shellscrip/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
+cp /home/centos/roboshop-shellscript/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
 VALIDATE $? "copying payment.service"
 
 systemctl daemon-reload &>>$LOGFILE
