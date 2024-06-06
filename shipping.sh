@@ -69,9 +69,9 @@ mvn clean package &>>$LOGFILE
 VALIDATE $? "Cleaning and packaging shipping jar"
 
 mv target/shipping-1.0.jar shipping.jar &>>$LOGFILE
-VALIDATE $? "moving in to target folder"
+VALIDATE $? "Renaming shipping jar"
 
-cp /home/centos/roboshop-shellscrip/shipping.service /etc/systemd/system/shipping.service &>>$LOGFILE
+cp /home/centos/roboshop-shellscript/shipping.service /etc/systemd/system/shipping.service &>>$LOGFILE
 VALIDATE $? "Copying shipping.service"
 
 systemctl daemon-reload &>>$LOGFILE
