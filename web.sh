@@ -44,7 +44,7 @@ VALIDATE $? "Downloading roboshop-web artifact"
 cd /usr/share/nginx/html &>>$LOGFILE
 VALIDATE $? "moving in to default html"
 
-cp /home/centos/roboshop-shellscript /etc/nginx/default.d/roboshop.conf &>>$LOGFILE
+cp /home/centos/roboshop-shellscript/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$LOGFILE
 VALIDATE $? "copying roboshop.config file"
 
 systemctl restart nginx &>>$LOGFILE
