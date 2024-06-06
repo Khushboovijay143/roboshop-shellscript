@@ -26,14 +26,14 @@ VALIDATE(){
     fi
 }
 
-cd /etc/yum.repos.d/ &>>$LOGFILE
-VALIDATE $? "Moving into app directory"
+# cd /etc/yum.repos.d/ &>>$LOGFILE
+# VALIDATE $? "Moving into app directory"
 
-sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-VALIDATE $? "Adding mirrorlist"
+# sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
+# VALIDATE $? "Adding mirrorlist"
 
-sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-VALIDATE $? "Adding baseurl and mirrorlist"
+# sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
+# VALIDATE $? "Adding baseurl and mirrorlist"
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "Copied MongoDB repo into yum.repos.d"
